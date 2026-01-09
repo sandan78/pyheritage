@@ -1,0 +1,2023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Pondichéry | Heritage Tobacco Reserve</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-dark: #1a120b;
+            --accent-gold: #d4af37;
+            --cream: #fdfbf7;
+            --burgundy: #722f37;
+            --forest: #2d4a3e;
+            --font-title: 'Cinzel', serif;
+            --font-body: 'Lato', sans-serif;
+        }
+        
+        html { scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: var(--font-body); 
+            background-color: var(--cream); 
+            color: #333; 
+            overflow-x: hidden; 
+        }
+
+        /* NAVIGATION */
+        nav { 
+            position: fixed; 
+            width: 100%; 
+            padding: 25px 8%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            z-index: 999; 
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        
+        nav.scrolled {
+            background: rgba(26, 18, 11, 0.98);
+            padding: 15px 8%;
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo { 
+            font-family: var(--font-title); 
+            font-size: 1.8rem; 
+            font-weight: 700; 
+            color: var(--accent-gold);
+            text-decoration: none;
+        }
+        
+        .nav-items { 
+            display: flex; 
+            align-items: center; 
+            gap: 30px; 
+        }
+        
+        .nav-items a { 
+            text-decoration: none; 
+            color: white; 
+            text-transform: uppercase; 
+            font-size: 0.75rem; 
+            letter-spacing: 2px;
+            position: relative;
+            padding: 5px 0;
+            transition: color 0.3s;
+        }
+        
+        .nav-items a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-gold);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-items a:hover { color: var(--accent-gold); }
+        .nav-items a:hover::after { width: 100%; }
+        
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .cart-icon i { font-size: 1.2rem; color: white; }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+            font-size: 0.65rem;
+            font-weight: bold;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* HERO & SMOKE */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1527661591475-527312dd65f5?q=80&w=2000&auto=format&fit=crop');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-text { 
+            position: relative; 
+            z-index: 5; 
+            text-align: center; 
+            color: white;
+            animation: fadeUp 1.2s forwards 0.5s; 
+            opacity: 0; 
+            transform: translateY(30px);
+        }
+        
+        .hero h2 { 
+            font-family: var(--font-title); 
+            font-size: clamp(2.5rem, 6vw, 4.5rem); 
+            line-height: 1.1; 
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 20px rgba(0,0,0,0.3);
+        }
+        
+        .hero p { 
+            letter-spacing: 4px; 
+            color: var(--accent-gold); 
+            margin-bottom: 40px;
+            font-size: 0.9rem;
+        }
+        
+        /* SMOKE CSS */
+        .smoke-container {
+            position: absolute; 
+            bottom: -50px; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            pointer-events: none; 
+            z-index: 2; 
+            overflow: hidden;
+        }
+        
+        .vapor {
+            position: absolute; 
+            bottom: -50px;
+            background: radial-gradient(circle, rgba(200,200,200,0.25) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            filter: blur(25px); 
+            opacity: 0;
+            animation: rise 8s infinite linear;
+        }
+        
+        @keyframes rise {
+            0% { transform: translateY(0) scale(1) translateX(0) rotate(0deg); opacity: 0; }
+            15% { opacity: 0.5; }
+            100% { transform: translateY(-900px) scale(5) translateX(80px) rotate(45deg); opacity: 0; }
+        }
+
+        /* BUTTONS */
+        .btn-main { 
+            padding: 18px 50px; 
+            background: var(--accent-gold); 
+            border: 2px solid var(--accent-gold);
+            font-family: var(--font-title); 
+            font-weight: bold; 
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            cursor: pointer; 
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-main:hover {
+            background: transparent;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            animation: bounce 2s infinite;
+        }
+        
+        .scroll-indicator span {
+            display: block;
+            width: 20px;
+            height: 30px;
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 15px;
+            position: relative;
+        }
+        
+        .scroll-indicator span::before {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 8px;
+            background: var(--accent-gold);
+            border-radius: 2px;
+            animation: scroll-dot 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+        
+        @keyframes scroll-dot {
+            0%, 100% { opacity: 1; top: 6px; }
+            50% { opacity: 0.3; top: 14px; }
+        }
+
+        /* CATEGORY TABS */
+        .category-section {
+            padding: 80px 8% 40px;
+            background: var(--primary-dark);
+            text-align: center;
+        }
+        
+        .category-title {
+            font-family: var(--font-title);
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+        }
+        
+        .category-subtitle {
+            color: #888;
+            letter-spacing: 3px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+        
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .tab-btn {
+            padding: 12px 30px;
+            background: transparent;
+            border: 1px solid #444;
+            color: #888;
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn:hover, .tab-btn.active {
+            background: var(--accent-gold);
+            border-color: var(--accent-gold);
+            color: var(--primary-dark);
+        }
+
+        /* PRODUCTS SECTION */
+        .products { 
+            padding: 60px 8% 100px; 
+            background: linear-gradient(180deg, var(--primary-dark) 0%, #2a1f17 100%);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .section-title {
+            font-family: var(--font-title); 
+            font-size: 1.8rem;
+            color: var(--accent-gold);
+        }
+        
+        .filter-sort {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .filter-select {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid #444;
+            color: #ccc;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        
+        .filter-select option {
+            background: var(--primary-dark);
+        }
+        
+        .grid-container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 30px; 
+        }
+        
+        .product-card { 
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-gold);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 5px 12px;
+            font-size: 0.65rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            z-index: 5;
+        }
+        
+        .badge-premium { background: var(--accent-gold); color: var(--primary-dark); }
+        .badge-local { background: var(--forest); color: white; }
+        .badge-bestseller { background: var(--burgundy); color: white; }
+        .badge-new { background: #2196F3; color: white; }
+        .badge-limited { background: #9C27B0; color: white; }
+        
+        .product-card .image-wrapper {
+            overflow: hidden;
+            position: relative;
+            height: 220px;
+        }
+        
+        .product-card img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        
+        .product-card:hover img {
+            transform: scale(1.1);
+        }
+        
+        .product-card .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(26, 18, 11, 0.85);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .product-card:hover .overlay {
+            opacity: 1;
+        }
+        
+        .overlay-btn {
+            padding: 10px 25px;
+            border: 1px solid var(--accent-gold);
+            background: transparent;
+            color: var(--accent-gold);
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 140px;
+        }
+        
+        .overlay-btn:hover {
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+        }
+        
+        .overlay-btn.add-cart {
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+        }
+        
+        .overlay-btn.add-cart:hover {
+            background: white;
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-brand {
+            font-size: 0.7rem;
+            color: #888;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        
+        .product-info h4 { 
+            font-family: var(--font-title);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: white;
+        }
+        
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .product-info .price {
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        
+        .product-info .original-price {
+            color: #666;
+            text-decoration: line-through;
+            font-size: 0.85rem;
+            margin-left: 8px;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .product-rating i {
+            color: var(--accent-gold);
+            font-size: 0.75rem;
+        }
+        
+        .product-rating span {
+            color: #888;
+            font-size: 0.75rem;
+        }
+        
+        .product-stock {
+            font-size: 0.7rem;
+            margin-top: 10px;
+        }
+        
+        .stock-in { color: #4CAF50; }
+        .stock-low { color: #FF9800; }
+        .stock-out { color: #f44336; }
+
+        /* BRAND SHOWCASE */
+        .brand-showcase {
+            padding: 80px 8%;
+            background: var(--cream);
+        }
+        
+        .brand-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .brand-item {
+            text-align: center;
+            padding: 30px 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .brand-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+        
+        .brand-item h5 {
+            font-family: var(--font-title);
+            font-size: 1rem;
+            color: var(--primary-dark);
+            margin-bottom: 5px;
+        }
+        
+        .brand-item span {
+            font-size: 0.7rem;
+            color: #888;
+            letter-spacing: 1px;
+        }
+
+        /* HERITAGE SECTION */
+        .heritage {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 80vh;
+        }
+        
+        .heritage-image {
+            background: url('https://images.unsplash.com/photo-1574280363402-2f672940b871?q=80&w=1000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .heritage-content {
+            background: var(--primary-dark);
+            color: white;
+            padding: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .heritage-content h3 {
+            font-family: var(--font-title);
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--accent-gold);
+        }
+        
+        .heritage-content p {
+            line-height: 2;
+            color: #aaa;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+        
+        .heritage-content .signature {
+            font-family: var(--font-title);
+            font-style: italic;
+            color: var(--accent-gold);
+            margin-top: 30px;
+        }
+
+        /* FEATURED BRANDS SECTION */
+        .featured-section {
+            padding: 100px 8%;
+            background: linear-gradient(135deg, #0f0a07 0%, #1a120b 100%);
+        }
+        
+        .featured-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .featured-header h3 {
+            font-family: var(--font-title);
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+        }
+        
+        .featured-header p {
+            color: #777;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+        }
+        
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+        
+        .featured-card {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .featured-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        
+        .featured-card:hover img {
+            transform: scale(1.1);
+        }
+        
+        .featured-card .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+        }
+        
+        .featured-card h4 {
+            font-family: var(--font-title);
+            font-size: 1.3rem;
+            color: white;
+            margin-bottom: 5px;
+        }
+        
+        .featured-card .price {
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* FOOTER */
+        footer { 
+            background: #0a0705; 
+            color: #555; 
+            padding: 80px 8% 40px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+        
+        .footer-about .footer-logo {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+        }
+        
+        .footer-about p {
+            color: #666;
+            line-height: 1.8;
+            font-size: 0.9rem;
+        }
+        
+        .footer-column h5 {
+            font-family: var(--font-title);
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 25px;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column ul li a {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--accent-gold);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #222;
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .footer-bottom p {
+            font-size: 0.85rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .social-links a {
+            color: #666;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent-gold);
+        }
+        
+        .age-warning {
+            width: 100%;
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .age-warning p {
+            color: #888;
+            font-size: 0.8rem;
+        }
+
+        /* QUICK VIEW MODAL */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--primary-dark);
+            max-width: 900px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            position: relative;
+            animation: modalIn 0.4s ease;
+        }
+        
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .modal-image {
+            height: 500px;
+        }
+        
+        .modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .modal-details {
+            padding: 40px;
+            color: white;
+        }
+        
+        .modal-details .brand {
+            color: #888;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .modal-details h3 {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            margin: 10px 0 20px;
+        }
+        
+        .modal-details .price {
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+        
+        .modal-details .description {
+            color: #aaa;
+            line-height: 1.8;
+            margin: 20px 0;
+        }
+        
+        .modal-details .specs {
+            margin: 20px 0;
+        }
+        
+        .modal-details .specs p {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #333;
+            font-size: 0.9rem;
+        }
+        
+        .modal-details .specs span {
+            color: #888;
+        }
+        
+        .modal-qty {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .qty-btn:hover {
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+        }
+        
+        .qty-input {
+            width: 60px;
+            text-align: center;
+            background: transparent;
+            border: 1px solid #444;
+            color: white;
+            padding: 10px;
+            font-size: 1rem;
+        }
+        
+        .modal-add-cart {
+            width: 100%;
+            padding: 15px;
+            background: var(--accent-gold);
+            border: none;
+            font-family: var(--font-title);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .modal-add-cart:hover {
+            background: white;
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp { 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* TOAST NOTIFICATION */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--forest);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 10001;
+            transform: translateX(150%);
+            transition: transform 0.4s ease;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast i {
+            color: #4CAF50;
+        }
+
+        /* MOBILE RESPONSIVE */
+        @media (max-width: 1024px) {
+            .featured-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav { padding: 20px 5%; }
+            .nav-items { gap: 15px; }
+            .nav-items a { font-size: 0.7rem; }
+            .logo { font-size: 1.4rem; }
+            
+            .hero h2 { font-size: 2.5rem; }
+            .hero p { font-size: 0.75rem; letter-spacing: 2px; }
+            
+            .category-section { padding: 60px 5% 30px; }
+            .products { padding: 40px 5% 80px; }
+            .grid-container { gap: 20px; }
+            
+            .heritage {
+                grid-template-columns: 1fr;
+            }
+            
+            .heritage-image {
+                height: 300px;
+            }
+            
+            .heritage-content {
+                padding: 40px 25px;
+            }
+            
+            .heritage-content h3 {
+                font-size: 1.8rem;
+            }
+            
+            .featured-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured-card {
+                height: 300px;
+            }
+            
+            .modal-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-image {
+                height: 250px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .nav-items a:not(:last-child) { display: none; }
+            .btn-main { padding: 14px 30px; font-size: 0.75rem; }
+            .category-tabs { gap: 8px; }
+            .tab-btn { padding: 10px 18px; font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <a href="#" class="logo">LE PONDICHÉRY</a>
+        <div class="nav-items">
+            <a href="#">Maison</a>
+            <a href="#collection">Collection</a>
+            <a href="#heritage">Heritage</a>
+            <a href="#">Contact</a>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="cart-count">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="smoke-container"></div>
+        <div class="hero-text">
+            <h2>The Art of <br> Colonial Blend</h2>
+            <p>HAND ROLLED IN THE FRENCH QUARTER</p>
+            <button class="btn-main" onclick="document.getElementById('collection').scrollIntoView({behavior: 'smooth'})">View Collection</button>
+        </div>
+        <div class="scroll-indicator">
+            <span></span>
+        </div>
+    </section>
+
+    <!-- CATEGORY SECTION -->
+    <section class="category-section" id="collection">
+        <h3 class="category-title fade-in">Our Collection</h3>
+        <p class="category-subtitle fade-in">Premium & Heritage Tobacco Since 1892</p>
+        
+        <div class="category-tabs fade-in">
+            <button class="tab-btn active" data-category="all">All Products</button>
+            <button class="tab-btn" data-category="premium-cigars">Premium Cigars</button>
+            <button class="tab-btn" data-category="premium-cigarettes">Premium Cigarettes</button>
+            <button class="tab-btn" data-category="indian-classics">Indian Classics</button>
+            <button class="tab-btn" data-category="pipe-tobacco">Pipe Tobacco</button>
+        </div>
+    </section>
+
+    <!-- PRODUCTS GRID -->
+    <section class="products">
+        <div class="section-header">
+            <h4 class="section-title">Premium Cigars</h4>
+            <div class="filter-sort">
+                <select class="filter-select">
+                    <option>Sort by: Featured</option>
+                    <option>Price: Low to High</option>
+                    <option>Price: High to Low</option>
+                    <option>Bestsellers</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="grid-container" id="premium-cigars">
+            <!-- COHIBA -->
+            <div class="product-card fade-in" data-category="premium-cigars" data-name="Cohiba Behike 56" data-price="12500" data-brand="Cohiba">
+                <span class="product-badge badge-premium">Premium</span>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1559868662-3746653926b4?q=80&w=800&auto=format&fit=crop" alt="Cohiba Behike">
+                    <div class="overlay">
+                        <button class="overlay-btn quick-view">Quick View</button>
+                        <button class="overlay-btn add-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Cohiba</p>
+                    <h4>Behike 56</h4>
+                    <div class="product-meta">
+                        <div>
+                            <span class="price">₹12,500</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(48)</span>
+                        </div>
+                    </div>
+                    <p class="product-stock stock-low"><i class="fas fa-circle"></i> Only 5 left</p>
+                </div>
+            </div>
+
+            <!-- MONTECRISTO -->
+            <div class="product-card fade-in" data-category="premium-cigars" data-name="Montecristo No. 2" data-price="8500" data-brand="Montecristo">
+                <span class="product-badge badge-bestseller">Bestseller</span>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1574280363402-2f672940b871?q=80&w=800&auto=format&fit=crop" alt="Montecristo">
+                    <div class="overlay">
+                        <button class="overlay-btn quick-view">Quick View</button>
+                        <button class="overlay-btn add-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Montecristo</p>
+                    <h4>No. 2 Torpedo</h4>
+                    <div class="product-meta">
+                        <div>
+                            <span class="price">₹8,500</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(124)</span>
+                        </div>
+                    </div>
+                    <p class="product-stock stock-in"><i class="fas fa-circle"></i> In Stock</p>
+                </div>
+            </div>
+
+            <!-- ROMEO Y JULIETA -->
+            <div class="product-card fade-in" data-category="premium-cigars" data-name="Romeo y Julieta Churchill" data-price="6800" data-brand="Romeo y Julieta">
+                <span class="product-badge badge-premium">Premium</span>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1533575498877-3e3a47990422?q=80&w=800&auto=format&fit=crop" alt="Romeo y Julieta">
+                    <div class="overlay">
+                        <button class="overlay-btn quick-view">Quick View</button>
+                        <button class="overlay-btn add-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Romeo y Julieta</p>
+                    <h4>Churchill Reserva</h4>
+                    <div class="product-meta">
+                        <div>
+                            <span class="price">₹6,800</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(67)</span>
+                        </div>
+                    </div>
+                    <p class="product-stock stock-in"><i class="fas fa-circle"></i> In Stock</p>
+                </div>
+            </div>
+
+            <!-- DAVIDOFF -->
+            <div class="product-card fade-in" data-category="premium-cigars" data-name="Davidoff Grand Cru" data-price="9200" data-brand="Davidoff">
+                <span class="product-badge badge-new">New</span>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1520036665063-2287c2b647e3?q=80&w=800&auto=format&fit=crop" alt="Davidoff">
+                    <div class="overlay">
+                        <button class="overlay-btn quick-view">Quick View</button>
+                        <button class="overlay-btn add-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Davidoff</p>
+                    <h4>Grand Cru No. 2</h4>
+                    <div class="product-meta">
+                        <div>
+                            <span class="price">₹9,200</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(89)</span>
+                        </div>
+                    </div>
+                    <p class="product-stock stock-in"><i class="fas fa-circle"></i> In Stock</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PREMIUM CIGARETTES -->
+        <div class="section-header" style="margin-top: 80px;">
+            <h4 class="section-title">Premium Cigarettes</h4>
+        </div>
+        
+        <div class="grid-container" id="premium-cigarettes">
+            <!-- MARLBORO -->
+            <div class="product-card fade-in" data-category="premium-cigarettes" data-name="Marlboro Gold" data-price="450" data-brand="Marlboro">
+                <span class="product-badge badge-premium">Imported</span>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1571687949921-1306bfb24b72?q=80&w=800&auto=format&fit=crop" alt="Marlboro">
+                    <div class="overlay">
+                        <button class="overlay-btn quick-view">Quick View</button>
+                        <button class="overlay-btn add-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Marlboro</p>
+                    <h4>Gold Original</h4>
+                    <div class="product-meta">
+                        <div>
+                            <span class="price">₹450</span>
+                            <span class="original-price">₹520</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(256)</span>
+                        </div>
+                    </div>
+                    <p class="product-stock stock-in"><i class="fas fa-circle"></i> In Stock</p>
+                </div>
+            </div>
+
+            <!-- DUNHILL -->
+            <div class="product-card fade-in" data-category="premium-cigarettes" data-name="Dunhill Fine Cut" data-price="520" data-brand="Dunhill">
+                <span class="product-badge badge-premium">Premium</span>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1544980919-e17526d4ed0a?q=80&w=800&auto=format&fit=crop" alt="Dunhill">
+                    <div class="overlay">
+                        <button class="overlay-btn quick-view">Quick View</button>
+                        <button class="overlay-btn add-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Dunhill</p>
+                    <h4>Fine Cut Blue</h4>
+                    <div class="product-meta">
+                        <div>
+                            <span class="price">₹520</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(178)</span>
+                        </div>
+                    </div>
+                    <p class="product-stock stock-in"><i class="fas fa-circle"></i> In Stock</p>
+                </div>
+            </div>
+
+            <!-- BENSON & HEDGES -->
+            <div class="product-card fade-in" data-category="premium-cigarettes" data-name="Benson & Hedges" data-price="380" data-brand="Benson & Hedges">
+                <span class="product-badge badge-bestseller">Bestseller</span>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1545240800-aa55888e4b73?q=80&w=800&auto=format&fit=crop" alt="B&H">
+                    <div class="overlay">
+                        <button class="overlay-btn quick-view">Quick View</button>
+                        <button class="overlay-btn add-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Benson & Hedges</p>
+                    <h4>Switch Capsule</h4>
+                    <div class="product-meta">
+                        <div>
+                            <span class="price">₹380</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(312)</span>
+                        </div>
+                    </div>
+                    <p class="product-stock stock-in"><i class="fas fa-circle"></i> In Stock</p>
+                </div>
+            </div>
+
+            <!-- PARLIAMENT -->
+            <div class="product-card fade-in" data-category="premium-cigarettes" data-name="Parliament Reserve" data-price="480" data-brand="Parliament">
+                <span class="product-badge badge-limited">Limited</span>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1557168626-3c4c1b8e8d8c?q=80&w=800&auto=format&fit=crop" alt="Parliament">
+                    <div class="overlay">
+                        <button class="overlay-btn quick-view">Quick View</button>
+                        <button class="overlay-btn add-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Parliament</p>
+                    <h4>Reserve Collection</h4>
+                    <div class="product-meta">
+                        <div>
+                            <span class="price">₹480</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(145)</span>
+                        </div>
+                    </div>
+                    <p class="product-stock stock-low"><i class="fas fa-circle"></i> Only 12 left</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- INDIAN CLASSICS -->
+        <div class="section-header" style="margin-top: 80px;">
+            <h4 class="section-title">Indian Classics</h4>
+        </div>
+        
+        <div class="grid-container" id="indian-classics">
+            <!-- SCISSORS -->
+            <div class="product-card fade-in" data-category="indian-classics" data-name="Scissors Standard" data-price="140" data-brand="Scissors">
+                <span class="product-badge badge-local">Local Favorite</span>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?q=80&w=800&auto=format&fit=crop" alt="Scissors">
+                    <div class="overlay">
+                        <button class="overlay-btn quick-view">Quick View</button>
+                        <button class="overlay-btn add-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Scissors</p>
+                    <h4>Original Standard</h4>
+                    <div class="product-meta">
+                        <div>
+                            <span class="price">₹140</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(892)</span>
+                        </div>
+                    </div>
+                    <p class="product-stock stock-in"><i class="fas fa-circle"></i> In Stock</p>
+                </div>
+            </div>
+
+            <!-- CHARMINAR -->
+            <div class="product-card fade-in" data-category="indian-classics" data-name="Charminar Filter" data-price="120" data-brand="Charminar">
+                <span class="product-badge badge-local">Heritage</span>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1504707748692-419802cf939d?q=80&w=800&auto=format&fit=crop" alt="Charminar">
+                    <div class="overlay">
+                        <button class="overlay-btn quick-view">Quick View</button>
+                        <button class="overlay-btn add-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Charminar</p>
+                    <h4>Filter Kings</h4>
+                    <div class="product-meta">
+                        <div>
+                            <span class="price">₹120</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <i class="far fa-star"></i>
+                            <span>(654)</span>
+                        </div>
+                    </div>
+                    <p class="product-stock stock-in"><i class="fas fa-circle"></i> In Stock</p>
+                </div>
+            </div>
+
+            <!-- GOLD FLAKE -->
+            <div class="product-card fade-in" data-category="indian-classics" data-name="Gold Flake Kings" data-price="180" data-brand="Gold Flake">
+                <span class="product-badge badge-bestseller">Bestseller</span>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=800&auto=format&fit=crop" alt="Gold Flake">
+                    <div class="overlay">
+                        <button class="overlay-btn quick-view">Quick View</button>
+                        <button class="overlay-btn add-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Gold Flake</p>
+                    <h4>Kings Size</h4>
+                    <div class="product-meta">
+                        <div>
+                            <span class="price">₹180</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(1.2K)</span>
+                        </div>
+                    </div>
+                    <p class="product-stock stock-in"><i class="fas fa-circle"></i> In Stock</p>
+                </div>
+            </div>
+
+            <!-- WILLS NAVY CUT -->
+            <div class="product-card fade-in" data-category="indian-classics" data-name="Wills Navy Cut" data-price="200" data-brand="Wills">
+                <span class="product-badge badge-local">Classic</span>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?q=80&w=800&auto=format&fit=crop" alt="Navy Cut">
+                    <div class="overlay">
+                        <button class="overlay-btn quick-view">Quick View</button>
+                        <button class="overlay-btn add-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Wills</p>
+                    <h4>Navy Cut Original</h4>
+                    <div class="product-meta">
+                        <div>
+                            <span class="price">₹200</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(478)</span>
+                        </div>
+                    </div>
+                    <p class="product-stock stock-in"><i class="fas fa-circle"></i> In Stock</p>
+                </div>
+            </div>
+
+            <!-- FOUR SQUARE -->
+            <div class="product-card fade-in" data-category="indian-classics" data-name="Four Square" data-price="160" data-brand="Four Square">
+                <span class="product-badge badge-local">Value</span>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1579783483458-83d02161294e?q=80&w=800&auto=format&fit=crop" alt="Four Square">
+                    <div class="overlay">
+                        <button class="overlay-btn quick-view">Quick View</button>
+                        <button class="overlay-btn add-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Four Square</p>
+                    <h4>Filter Special</h4>
+                    <div class="product-meta">
+                        <div>
+                            <span class="price">₹160</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(367)</span>
+                        </div>
+                    </div>
+                    <p class="product-stock stock-in"><i class="fas fa-circle"></i> In Stock</p>
+                </div>
+            </div>
+
+            <!-- CAPSTAN -->
+            <div class="product-card fade-in" data-category="indian-classics" data-name="Capstan" data-price="150" data-brand="Capstan">
+                <span class="product-badge badge-local">Heritage</span>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=800&auto=format&fit=crop" alt="Capstan">
+                    <div class="overlay">
+                        <button class="overlay-btn quick-view">Quick View</button>
+                        <button class="overlay-btn add-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Capstan</p>
+                    <h4>Filter Kings</h4>
+                    <div class="product-meta">
+                        <div>
+                            <span class="price">₹150</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <i class="far fa-star"></i>
+                            <span>(289)</span>
+                        </div>
+                    </div>
+                    <p class="product-stock stock-in"><i class="fas fa-circle"></i> In Stock</p>
+                </div>
+            </div>
+
+            <!-- BRISTOL -->
+            <div class="product-card fade-in" data-category="indian-classics" data-name="Bristol" data-price="130" data-brand="Bristol">
+                <span class="product-badge badge-local">Budget</span>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1517142089942-ba376ce32a2e?q=80&w=800&auto=format&fit=crop" alt="Bristol">
+                    <div class="overlay">
+                        <button class="overlay-btn quick-view">Quick View</button>
+                        <button class="overlay-btn add-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Bristol</p>
+                    <h4>Regular Filter</h4>
+                    <div class="product-meta">
+                        <div>
+                            <span class="price">₹130</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(198)</span>
+                        </div>
+                    </div>
+                    <p class="product-stock stock-in"><i class="fas fa-circle"></i> In Stock</p>
+                </div>
+            </div>
+
+            <!-- CHARMS -->
+            <div class="product-card fade-in" data-category="indian-classics" data-name="Charms" data-price="115" data-brand="Charms">
+                <span class="product-badge badge-local">Popular</span>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1543965170-4c01a586684e?q=80&w=800&auto=format&fit=crop" alt="Charms">
+                    <div class="overlay">
+                        <button class="overlay-btn quick-view">Quick View</button>
+                        <button class="overlay-btn add-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Charms</p>
+                    <h4>Mini Filter</h4>
+                    <div class="product-meta">
+                        <div>
+                            <span class="price">₹115</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(534)</span>
+                        </div>
+                    </div>
+                    <p class="product-stock stock-in"><i class="fas fa-circle"></i> In Stock</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PIPE TOBACCO -->
+        <div class="section-header" style="margin-top: 80px;">
+            <h4 class="section-title">Pipe Tobacco & Accessories</h4>
+        </div>
+        
+        <div class="grid-container" id="pipe-tobacco">
+            <!-- DUNHILL PIPE -->
+            <div class="product-card fade-in" data-category="pipe-tobacco" data-name="Dunhill Early Morning" data-price="2800" data-brand="Dunhill">
+                <span class="product-badge badge-premium">Premium</span>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1574280363402-2f672940b871?q=80&w=800&auto=format&fit=crop" alt="Dunhill Pipe">
+                    <div class="overlay">
+                        <button class="overlay-btn quick-view">Quick View</button>
+                        <button class="overlay-btn add-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Dunhill</p>
+                    <h4>Early Morning Pipe</h4>
+                    <div class="product-meta">
+                        <div>
+                            <span class="price">₹2,800</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(56)</span>
+                        </div>
+                    </div>
+                    <p class="product-stock stock-in"><i class="fas fa-circle"></i> In Stock</p>
+                </div>
+            </div>
+
+            <!-- CAPTAIN BLACK -->
+            <div class="product-card fade-in" data-category="pipe-tobacco" data-name="Captain Black Gold" data-price="1500" data-brand="Captain Black">
+                <span class="product-badge badge-bestseller">Bestseller</span>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1520036665063-2287c2b647e3?q=80&w=800&auto=format&fit=crop" alt="Captain Black">
+                    <div class="overlay">
+                        <button class="overlay-btn quick-view">Quick View</button>
+                        <button class="overlay-btn add-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Captain Black</p>
+                    <h4>Gold Blend 50g</h4>
+                    <div class="product-meta">
+                        <div>
+                            <span class="price">₹1,500</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(123)</span>
+                        </div>
+                    </div>
+                    <p class="product-stock stock-in"><i class="fas fa-circle"></i> In Stock</p>
+                </div>
+            </div>
+
+            <!-- HERITAGE PIPE -->
+            <div class="product-card fade-in" data-category="pipe-tobacco" data-name="Le Pondichéry Heritage Pipe" data-price="8500" data-brand="Le Pondichéry">
+                <span class="product-badge badge-limited">House Special</span>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1559868662-3746653926b4?q=80&w=800&auto=format&fit=crop" alt="Heritage Pipe">
+                    <div class="overlay">
+                        <button class="overlay-btn quick-view">Quick View</button>
+                        <button class="overlay-btn add-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Le Pondichéry</p>
+                    <h4>Heritage Briar Pipe</h4>
+                    <div class="product-meta">
+                        <div>
+                            <span class="price">₹8,500</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(34)</span>
+                        </div>
+                    </div>
+                    <p class="product-stock stock-low"><i class="fas fa-circle"></i> Only 3 left</p>
+                </div>
+            </div>
+
+            <!-- AMSTERDAM SHAG -->
+            <div class="product-card fade-in" data-category="pipe-tobacco" data-name="Amsterdamer Halfzware" data-price="950" data-brand="Amsterdamer">
+                <span class="product-badge badge-new">New Arrival</span>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1533575498877-3e3a47990422?q=80&w=800&auto=format&fit=crop" alt="Amsterdamer">
+                    <div class="overlay">
+                        <button class="overlay-btn quick-view">Quick View</button>
+                        <button class="overlay-btn add-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-brand">Amsterdamer</p>
+                    <h4>Halfzware Shag 40g</h4>
+                    <div class="product-meta">
+                        <div>
+                            <span class="price">₹950</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(78)</span>
+                        </div>
+                    </div>
+                    <p class="product-stock stock-in"><i class="fas fa-circle"></i> In Stock</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BRAND SHOWCASE -->
+    <section class="brand-showcase">
+        <div class="featured-header" style="margin-bottom: 40px;">
+            <h3 style="color: var(--primary-dark);">Our Partner Brands</h3>
+            <p style="color: #888;">Curated from the world's finest tobacco houses</p>
+        </div>
+        <div class="brand-grid">
+            <div class="brand-item">
+                <h5>Cohiba</h5>
+                <span>Cuba</span>
+            </div>
+            <div class="brand-item">
+                <h5>Montecristo</h5>
+                <span>Cuba</span>
+            </div>
+            <div class="brand-item">
+                <h5>Davidoff</h5>
+                <span>Switzerland</span>
+            </div>
+            <div class="brand-item">
+                <h5>Dunhill</h5>
+                <span>UK</span>
+            </div>
+            <div class="brand-item">
+                <h5>Gold Flake</h5>
+                <span>India</span>
+            </div>
+            <div class="brand-item">
+                <h5>Marlboro</h5>
+                <span>USA</span>
+            </div>
+            <div class="brand-item">
+                <h5>Scissors</h5>
+                <span>India</span>
+            </div>
+            <div class="brand-item">
+                <h5>Parliament</h5>
+                <span>USA</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- HERITAGE SECTION -->
+    <section class="heritage" id="heritage">
+        <div class="heritage-image"></div>
+        <div class="heritage-content">
+            <h3>Our Heritage</h3>
+            <p>
+                Founded in the cobbled streets of French Pondicherry, our maison has been 
+                crafting exceptional tobacco experiences for over a century. Each blend 
+                tells a story of colonial elegance and Tamil craftsmanship.
+            </p>
+            <p>
+                From the iconic Indian classics like Gold Flake and Scissors to the finest 
+                Cuban cigars, we curate only the most distinguished tobacco products for 
+                our discerning clientele.
+            </p>
+            <p class="signature">— Pierre Dumas, Maître Tobacconist</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-about">
+                <div class="footer-logo">LE PONDICHÉRY</div>
+                <p>
+                    Since 1892, we have been the premier destination for tobacco 
+                    connoisseurs in South India. Our collection spans from heritage 
+                    Indian brands to the world's most exclusive cigars.
+                </p>
+            </div>
+            <div class="footer-column">
+                <h5>Quick Links</h5>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Collection</a></li>
+                    <li><a href="#">Heritage</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h5>Categories</h5>
+                <ul>
+                    <li><a href="#">Premium Cigars</a></li>
+                    <li><a href="#">Cigarettes</a></li>
+                    <li><a href="#">Pipe Tobacco</a></li>
+                    <li><a href="#">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h5>Support</h5>
+                <ul>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Shipping</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="#">Track Order</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Le Pondichéry Tobacco Co. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-pinterest"></i></a>
+            </div>
+        </div>
+        
+        <div class="age-warning">
+            <p>⚠️ <strong>WARNING:</strong> This website is intended for adults of legal smoking age only. Tobacco use is harmful to health. Smoking causes cancer.</p>
+        </div>
+    </footer>
+
+    <!-- QUICK VIEW MODAL -->
+    <div class="modal-overlay" id="quickViewModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-image">
+                <img src="" alt="Product" id="modalImage">
+            </div>
+            <div class="modal-details">
+                <p class="brand" id="modalBrand">Brand</p>
+                <h3 id="modalName">Product Name</h3>
+                <p class="price" id="modalPrice">₹0</p>
+                <p class="description">
+                    Premium quality tobacco, hand-selected by our master blenders. 
+                    Each product undergoes rigorous quality control to ensure an 
+                    exceptional smoking experience.
+                </p>
+                <div class="specs">
+                    <p>Origin <span id="modalOrigin">India</span></p>
+                    <p>Strength <span id="modalStrength">Medium</span></p>
+                    <p>Pack Size <span id="modalPack">20 pieces</span></p>
+                </div>
+                <div class="modal-qty">
+                    <button class="qty-btn" onclick="changeQty(-1)">-</button>
+                    <input type="number" class="qty-input" value="1" min="1" id="qtyInput">
+                    <button class="qty-btn" onclick="changeQty(1)">+</button>
+                </div>
+                <button class="modal-add-cart" onclick="addToCartFromModal()">ADD TO CART</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Added to cart!</span>
+    </div>
+
+    <script>
+        // SMOKE GENERATOR
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.querySelector('.smoke-container');
+            const puffCount = 35;
+            
+            for (let i = 0; i < puffCount; i++) {
+                const puff = document.createElement('div');
+                puff.classList.add('vapor');
+                
+                const centerBias = Math.random() > 0.4;
+                let randomX = centerBias 
+                    ? (window.innerWidth / 2) + (Math.random() * 300 - 150)
+                    : Math.random() * window.innerWidth;
+
+                const size = Math.random() * 120 + 60;
+                const duration = Math.random() * 6 + 6;
+                const delay = Math.random() * 8;
+
+                Object.assign(puff.style, {
+                    left: `${randomX}px`,
+                    width: `${size}px`,
+                    height: `${size}px`,
+                    animationDuration: `${duration}s`,
+                    animationDelay: `${delay}s`
+                });
+
+                container.appendChild(puff);
+            }
+        });
+
+        // NAVBAR SCROLL EFFECT
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // SCROLL ANIMATIONS
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 50);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // CATEGORY TABS
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const productCards = document.querySelectorAll('.product-card');
+
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const category = btn.dataset.category;
+                
+                productCards.forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                        setTimeout(() => card.style.opacity = '1', 10);
+                    } else {
+                        card.style.opacity = '0';
+                        setTimeout(() => card.style.display = 'none', 300);
+                    }
+                });
+            });
+        });
+
+        // CART FUNCTIONALITY
+        let cart = [];
+        let cartCount = 0;
+
+        function updateCartCount() {
+            document.querySelector('.cart-count').textContent = cartCount;
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ADD TO CART BUTTONS
+        document.querySelectorAll('.add-cart').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const card = btn.closest('.product-card');
+                const name = card.dataset.name;
+                const price = card.dataset.price;
+                
+                cart.push({ name, price, qty: 1 });
+                cartCount++;
+                updateCartCount();
+                showToast(`${name} added to cart!`);
+            });
+        });
+
+        // QUICK VIEW MODAL
+        const modal = document.getElementById('quickViewModal');
+        let currentProduct = null;
+
+        document.querySelectorAll('.quick-view').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const card = btn.closest('.product-card');
+                currentProduct = {
+                    name: card.dataset.name,
+                    price: card.dataset.price,
+                    brand: card.dataset.brand,
+                    image: card.querySelector('img').src
+                };
+                
+                document.getElementById('modalName').textContent = currentProduct.name;
+                document.getElementById('modalPrice').textContent = `₹${parseInt(currentProduct.price).toLocaleString()}`;
+                document.getElementById('modalBrand').textContent = currentProduct.brand;
+                document.getElementById('modalImage').src = currentProduct.image;
+                document.getElementById('qtyInput').value = 1;
+                
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function changeQty(delta) {
+            const input = document.getElementById('qtyInput');
+            let val = parseInt(input.value) + delta;
+            if (val < 1) val = 1;
+            if (val > 99) val = 99;
+            input.value = val;
+        }
+
+        function addToCartFromModal() {
+            if (!currentProduct) return;
+            const qty = parseInt(document.getElementById('qtyInput').value);
+            
+            cart.push({ ...currentProduct, qty });
+            cartCount += qty;
+            updateCartCount();
+            showToast(`${currentProduct.name} (x${qty}) added to cart!`);
+            closeModal();
+        }
+
+        // Close modal on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // ESC key to close
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // SMOOTH SCROLL
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
